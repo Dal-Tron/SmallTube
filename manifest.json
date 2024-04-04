@@ -1,0 +1,27 @@
+{
+    "manifest_version": 2,
+    "name": "SmallTube",
+    "version": "1.0",
+    "description": "Makes YouTube thumbnails smaller and compacts the layout.",
+    "permissions": [
+      "activeTab",
+      "tabs",
+      "*://www.youtube.com/*"
+    ],
+    "content_scripts": [
+      {
+        "matches": ["*://www.youtube.com/*"],
+        "js": ["smalltube.js"]
+      }
+    ],
+    "icons": {
+      "48": "SmallTube_Logo_48.png",
+      "128": "SmallTube_Logo_128.png"
+    },
+    "browser_action": {
+      "default_icon": "SmallTube_Logo_128.png",
+      "default_popup": "popup.html",
+      "default_title": "SmallTube"
+    }
+  }
+  
