@@ -86,6 +86,7 @@ function populateGrid(thumbnailSources, contentPosition) {
         thumbnailSources.forEach(videoInfo => {
             const link = document.createElement('a');
             link.href = videoInfo.videoUrl;
+            link.target = '_blank'; 
             link.style.textDecoration = 'none';
             link.style.color = 'inherit';
 
@@ -177,13 +178,13 @@ function createOverlay() {
     overlay.style.top = '0';
     overlay.style.left = '0';
     overlay.style.width = '100%';
-    overlay.style.height = '100vh'; // Use viewport height
+    overlay.style.height = '100vh'; 
     overlay.style.backgroundColor = '#212121';
     overlay.style.zIndex = '1000';
-    overlay.style.overflowY = 'auto'; // Enable vertical scrolling
-    overlay.style.display = 'flex'; // Use flexbox for centering
-    overlay.style.justifyContent = 'center'; // Center horizontally
-    overlay.style.alignItems = 'center'; // Center vertically
+    overlay.style.overflowY = 'auto';
+    overlay.style.display = 'flex';
+    overlay.style.justifyContent = 'center'; 
+    overlay.style.alignItems = 'center'; 
 
     const loadingText = document.createElement('div');
     loadingText.textContent = 'Loading...';
