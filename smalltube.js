@@ -71,9 +71,6 @@ function updateThumbnailSources(thumbnailSources) {
     });
 }
 
-
-
-
 function populateGrid(thumbnailSources, contentPosition) {
     const overlay = document.getElementById('smallTubeOverlay');
     if (overlay) {
@@ -114,18 +111,30 @@ function populateGrid(thumbnailSources, contentPosition) {
 
             // Create title text element for hover
             const titleText = document.createElement('div');
-            titleText.textContent = videoInfo.title;
             titleText.style.position = 'absolute';
-            titleText.style.bottom = '0';
+            titleText.style.top = '0';
             titleText.style.left = '0';
             titleText.style.width = '100%';
-            titleText.style.color = 'white';
-            titleText.style.backgroundColor = 'rgba(0, 0, 0, 0.7)'; // Semi-transparent background
-            titleText.style.textAlign = 'center';
-            titleText.style.fontWeight = 'bold';
-            titleText.style.display = 'none'; // Initially hidden
+            titleText.style.height = '100%';
+            titleText.style.backgroundColor = 'rgba(0, 0, 0, 0.7)';
+            titleText.style.display = 'none'; 
+            
+            const textContent = document.createElement('div');
+            textContent.textContent = videoInfo.title;
+            textContent.style.color = 'white';
+            textContent.style.fontWeight = 'bold';
+            textContent.style.padding = '5px';
+            textContent.style.fontSize = '14px'; 
+            textContent.style.textAlign = 'center'; 
+            textContent.style.display = 'flex'; 
+            textContent.style.flexDirection = 'column';
+            textContent.style.justifyContent = 'center'; 
+            textContent.style.alignItems = 'center'; 
+            textContent.style.width = '100%'; 
+            textContent.style.height = '100%'; 
 
-            // Show title on hover
+            titleText.appendChild(textContent); 
+
             thumbnailContainer.addEventListener('mouseenter', () => {
                 titleText.style.display = 'block';
             });
@@ -163,30 +172,24 @@ function populateGrid(thumbnailSources, contentPosition) {
     }
 }
 
-
-
-
-
 function createOverlay() {
-        const overlay = document.createElement('div');
-        overlay.id = 'smallTubeOverlay';
-        overlay.style.position = 'fixed';
-        overlay.style.top = '0';
-        overlay.style.left = '0';
-        overlay.style.width = '100%';
-        overlay.style.height = '100%';
-        overlay.style.backgroundColor = '#212121';
-        overlay.style.zIndex = '1000';
-        overlay.style.display = 'flex';
-        overlay.style.justifyContent = 'center';
-        overlay.style.alignItems = 'center';
-        overlay.style.fontSize = '2rem';
-        overlay.innerText = 'Loading...';
+    const overlay = document.createElement('div');
+    overlay.id = 'smallTubeOverlay';
+    overlay.style.position = 'fixed';
+    overlay.style.top = '0';
+    overlay.style.left = '0';
+    overlay.style.width = '100%';
+    overlay.style.height = '100vh'; // Use viewport height
+    overlay.style.backgroundColor = '#212121';
+    overlay.style.zIndex = '1000';
+    overlay.style.overflowY = 'auto'; // Enable vertical scrolling
+    overlay.innerText = 'Loading...';
 
-        if (!document.getElementById('smallTubeOverlay')) {
-            document.body.appendChild(overlay);
-            console.log('Overlay created');
-        } else {
-            console.log('Overlay already exists');
-        }
+    if (!document.getElementById('smallTubeOverlay')) {
+        document.body.appendChild(overlay);
+        document.body.style.overflow = 'hidden'; // Disable scrolling on the body
+        console.log('Overlay created');
+    } else {
+        console.log('Overlay already exists');
     }
+}
