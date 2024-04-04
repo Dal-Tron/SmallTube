@@ -4,17 +4,26 @@
     <title>SmallTube Control</title>
     <script src="popup.js"></script>
     <style>
-        /* Add your styles here */
-        body {
-            width: 200px;
-            padding: 10px;
-        }
+        .w-200 { width: 200px; }
+        .p-10 { padding: 10px; }
+        .mb-15 { margin-bottom: 15px; }
+        .flex { display: flex; }
+        .items-center { align-items: center; }
+        .text { margin-right: 10px; }
     </style>
 </head>
-<body>
-    <div>
-        <label for="size-slider">Adjust Size:</label>
-        <input type="range" id="size-slider" min="0" max="100" value="50">
+<body class="w-200 p-10">
+    <div class="mb-15 flex items-center">
+        <label for="toggle-smalltube" class="text">Turn On SmallTube</label>
+        <input type="checkbox" id="toggle-smalltube">
     </div>
+    <!-- <div class="slider-container mb-15">
+        <label for="thumbnail-slider">Adjust Thumbnail Size:</label>
+        <input type="range" id="thumbnail-slider" min="0" max="100" value="50">
+    </div>
+    <div class="slider-container mb-15">
+        <label for="title-slider">Adjust Title Font Size:</label>
+        <input type="range" id="title-slider" min="0" max="100" value="50">
+    </div> -->
 </body>
 </html>
