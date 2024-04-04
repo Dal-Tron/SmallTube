@@ -91,8 +91,8 @@ function populateGrid(thumbnailSources, contentPosition) {
         thumbnailSources.forEach(videoInfo => {
             const link = document.createElement('a');
             link.href = videoInfo.videoUrl;
-            link.style.textDecoration = 'none'; // Optional: remove text decoration
-            link.style.color = 'inherit'; // Optional: inherit text color
+            link.style.textDecoration = 'none';
+            link.style.color = 'inherit';
 
             const itemContainer = document.createElement('div');
             itemContainer.style.display = 'flex';
@@ -102,7 +102,7 @@ function populateGrid(thumbnailSources, contentPosition) {
 
             const thumbnailContainer = document.createElement('div');
             thumbnailContainer.style.width = '200px';
-            thumbnailContainer.style.height = '112.5px'; // 16:9 aspect ratio
+            thumbnailContainer.style.height = '112.5px';
             thumbnailContainer.style.position = 'relative';
             thumbnailContainer.style.overflow = 'hidden';
 
@@ -111,6 +111,27 @@ function populateGrid(thumbnailSources, contentPosition) {
             img.style.width = '100%';
             img.style.height = '100%';
             img.style.objectFit = 'cover';
+
+            // Create title text element for hover
+            const titleText = document.createElement('div');
+            titleText.textContent = videoInfo.title;
+            titleText.style.position = 'absolute';
+            titleText.style.bottom = '0';
+            titleText.style.left = '0';
+            titleText.style.width = '100%';
+            titleText.style.color = 'white';
+            titleText.style.backgroundColor = 'rgba(0, 0, 0, 0.7)'; // Semi-transparent background
+            titleText.style.textAlign = 'center';
+            titleText.style.fontWeight = 'bold';
+            titleText.style.display = 'none'; // Initially hidden
+
+            // Show title on hover
+            thumbnailContainer.addEventListener('mouseenter', () => {
+                titleText.style.display = 'block';
+            });
+            thumbnailContainer.addEventListener('mouseleave', () => {
+                titleText.style.display = 'none';
+            });
 
             const avatarContainer = document.createElement('div');
             avatarContainer.style.display = 'flex';
@@ -129,9 +150,9 @@ function populateGrid(thumbnailSources, contentPosition) {
             channelName.style.fontSize = '12px';
 
             thumbnailContainer.appendChild(img);
+            thumbnailContainer.appendChild(titleText);
             avatarContainer.appendChild(avatarImg);
             avatarContainer.appendChild(channelName);
-
             itemContainer.appendChild(thumbnailContainer);
             itemContainer.appendChild(avatarContainer);
 
@@ -140,6 +161,7 @@ function populateGrid(thumbnailSources, contentPosition) {
         });
     }
 }
+
 
 
 
