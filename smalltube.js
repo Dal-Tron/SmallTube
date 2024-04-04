@@ -84,8 +84,8 @@ function populateGrid(thumbnailSources, contentPosition) {
         grid.style.top = `${contentPosition.top}px`;
         grid.style.left = `${contentPosition.left}px`;
         grid.style.display = 'grid';
-        grid.style.gridTemplateColumns = 'repeat(6, 200px)';
-        grid.style.gridGap = '10px';
+        grid.style.gridTemplateColumns = 'repeat(7, 200px)';
+        grid.style.gap = '10px';
         overlay.appendChild(grid);
 
         thumbnailSources.forEach(videoInfo => {
@@ -143,11 +143,12 @@ function populateGrid(thumbnailSources, contentPosition) {
             avatarImg.style.width = '30px';
             avatarImg.style.height = '30px';
             avatarImg.style.borderRadius = '50%';
-            avatarImg.style.marginRight = '5px';
+            avatarImg.style.marginRight = '10px';
 
             const channelName = document.createElement('span');
             channelName.textContent = videoInfo.channelName;
             channelName.style.fontSize = '12px';
+            channelName.style.color = '#ffffff';
 
             thumbnailContainer.appendChild(img);
             thumbnailContainer.appendChild(titleText);
@@ -174,7 +175,7 @@ function createOverlay() {
         overlay.style.left = '0';
         overlay.style.width = '100%';
         overlay.style.height = '100%';
-        overlay.style.backgroundColor = 'rgba(255, 255, 255, 0.8)';
+        overlay.style.backgroundColor = '#212121';
         overlay.style.zIndex = '1000';
         overlay.style.display = 'flex';
         overlay.style.justifyContent = 'center';
