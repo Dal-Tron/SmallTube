@@ -69,45 +69,67 @@ function updateThumbnailSources(thumbnailSources) {
     });
 }
 
-    function populateGrid(thumbnailSources, contentPosition) {
-        const overlay = document.getElementById('smallTubeOverlay');
-        if (overlay) {
-            console.log('found overlay')
-            overlay.innerHTML = ''; // Clear the loading text
+function populateGrid(thumbnailSources, contentPosition) {
+    const overlay = document.getElementById('smallTubeOverlay');
+    if (overlay) {
+        overlay.innerHTML = ''; // Clear the loading text
 
-            const grid = document.createElement('div');
-            grid.style.position = 'absolute';
-            grid.style.top = `${contentPosition.top}px`;
-            grid.style.left = `${contentPosition.left}px`;
-            grid.style.display = 'grid';
-            grid.style.gridTemplateColumns = 'repeat(6, 200px)';
-            grid.style.gridAutoRows = '112.5px'; 
-            grid.style.gap = '10px';
-            overlay.appendChild(grid);
+        const grid = document.createElement('div');
+        grid.style.position = 'absolute';
+        grid.style.top = `${contentPosition.top}px`;
+        grid.style.left = `${contentPosition.left}px`;
+        grid.style.display = 'grid';
+        grid.style.gridTemplateColumns = 'repeat(6, 200px)';
+        grid.style.gridGap = '10px';
+        overlay.appendChild(grid);
 
-            thumbnailSources.forEach(videoInfo => {
-                const thumbnailContainer = document.createElement('div');
-                thumbnailContainer.style.width = '100%';
-                thumbnailContainer.style.height = '100%';
-                thumbnailContainer.style.position = 'relative';
-                thumbnailContainer.style.overflow = 'hidden';
-                thumbnailContainer.style.marginTop = '60px'
+        thumbnailSources.forEach(videoInfo => {
+            const itemContainer = document.createElement('div');
+            itemContainer.style.display = 'flex';
+            itemContainer.style.flexDirection = 'column';
+            itemContainer.style.alignItems = 'center';
+            itemContainer.style.justifyContent = 'flex-start';
 
-                const img = document.createElement('img');
-                img.src = videoInfo.thumbnailUrl;
-                img.style.width = '100%';
-                img.style.height = '100%';
-                img.style.objectFit = 'cover';
-                img.style.position = 'absolute';
-                img.style.top = '50%';
-                img.style.left = '50%';
-                img.style.transform = 'translate(-50%, -50%)';
+            const thumbnailContainer = document.createElement('div');
+            thumbnailContainer.style.width = '200px';
+            thumbnailContainer.style.height = '112.5px'; // 16:9 aspect ratio
+            thumbnailContainer.style.position = 'relative';
+            thumbnailContainer.style.overflow = 'hidden';
 
-                thumbnailContainer.appendChild(img);
-                grid.appendChild(thumbnailContainer);
-            });
-        }
+            const img = document.createElement('img');
+            img.src = videoInfo.thumbnailUrl;
+            img.style.width = '100%';
+            img.style.height = '100%';
+            img.style.objectFit = 'cover';
+
+            const avatarContainer = document.createElement('div');
+            avatarContainer.style.display = 'flex';
+            avatarContainer.style.alignItems = 'center';
+            avatarContainer.style.marginTop = '5px';
+
+            const avatarImg = document.createElement('img');
+            avatarImg.src = videoInfo.avatarUrl;
+            avatarImg.style.width = '30px';
+            avatarImg.style.height = '30px';
+            avatarImg.style.borderRadius = '50%';
+            avatarImg.style.marginRight = '5px';
+
+            const channelName = document.createElement('span');
+            channelName.textContent = videoInfo.channelName;
+            channelName.style.fontSize = '12px';
+
+            thumbnailContainer.appendChild(img);
+            avatarContainer.appendChild(avatarImg);
+            avatarContainer.appendChild(channelName);
+
+            itemContainer.appendChild(thumbnailContainer);
+            itemContainer.appendChild(avatarContainer);
+
+            grid.appendChild(itemContainer);
+        });
     }
+}
+
 
 
 function createOverlay() {
