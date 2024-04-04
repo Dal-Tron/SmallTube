@@ -50,15 +50,17 @@ function updateThumbnailSources(thumbnailSources) {
         const thumbnailImg = video.querySelector('ytd-thumbnail img');
         const titleElement = video.querySelector('#video-title-link');
         const avatarImg = video.querySelector('#avatar-link img');
-        const channelNameElement = video.querySelector('ytd-channel-name');
+        const channelNameElement = video.querySelector('#metadata #text');
 
         if (thumbnailImg && titleElement && avatarImg && channelNameElement) {
+            const channelName = channelNameElement.getAttribute('title') || channelNameElement.textContent.trim();
+
             const videoInfo = {
                 thumbnailUrl: thumbnailImg.src,
                 title: titleElement.getAttribute('title'),
                 videoUrl: 'https://www.youtube.com' + titleElement.getAttribute('href'),
                 avatarUrl: avatarImg.src,
-                channelName: channelNameElement.textContent.trim()
+                channelName: channelName
             };
 
             const videoInfoKey = videoInfo.videoUrl;
@@ -68,6 +70,9 @@ function updateThumbnailSources(thumbnailSources) {
         }
     });
 }
+
+
+
 
 function populateGrid(thumbnailSources, contentPosition) {
     const overlay = document.getElementById('smallTubeOverlay');
@@ -84,6 +89,11 @@ function populateGrid(thumbnailSources, contentPosition) {
         overlay.appendChild(grid);
 
         thumbnailSources.forEach(videoInfo => {
+            const link = document.createElement('a');
+            link.href = videoInfo.videoUrl;
+            link.style.textDecoration = 'none'; // Optional: remove text decoration
+            link.style.color = 'inherit'; // Optional: inherit text color
+
             const itemContainer = document.createElement('div');
             itemContainer.style.display = 'flex';
             itemContainer.style.flexDirection = 'column';
@@ -125,10 +135,12 @@ function populateGrid(thumbnailSources, contentPosition) {
             itemContainer.appendChild(thumbnailContainer);
             itemContainer.appendChild(avatarContainer);
 
-            grid.appendChild(itemContainer);
+            link.appendChild(itemContainer);
+            grid.appendChild(link);
         });
     }
 }
+
 
 
 
