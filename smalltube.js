@@ -36,8 +36,6 @@ function collectThumbnails(thumbnailSources, contentPosition) {
 
         if (thumbnailSources.size > 50) {
             clearInterval(interval);
-            console.log("Thumbnail collection complete.");
-            console.log(Array.from(thumbnailSources.values()));
             populateGrid(thumbnailSources, contentPosition);
         }
     }, 4000);
@@ -74,7 +72,7 @@ function updateThumbnailSources(thumbnailSources) {
 function populateGrid(thumbnailSources, contentPosition) {
     const overlay = document.getElementById('smallTubeOverlay');
     if (overlay) {
-        overlay.innerHTML = ''; // Clear the loading text
+        overlay.innerHTML = ''; 
 
         const grid = document.createElement('div');
         grid.style.position = 'absolute';
@@ -183,7 +181,16 @@ function createOverlay() {
     overlay.style.backgroundColor = '#212121';
     overlay.style.zIndex = '1000';
     overlay.style.overflowY = 'auto'; // Enable vertical scrolling
-    overlay.innerText = 'Loading...';
+    overlay.style.display = 'flex'; // Use flexbox for centering
+    overlay.style.justifyContent = 'center'; // Center horizontally
+    overlay.style.alignItems = 'center'; // Center vertically
+
+    const loadingText = document.createElement('div');
+    loadingText.textContent = 'Loading...';
+    loadingText.style.fontSize = '2rem';
+    loadingText.style.color = 'white';
+
+    overlay.appendChild(loadingText);
 
     if (!document.getElementById('smallTubeOverlay')) {
         document.body.appendChild(overlay);
