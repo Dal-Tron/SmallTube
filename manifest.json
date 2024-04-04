@@ -11,7 +11,7 @@
     "content_scripts": [
       {
         "matches": ["*://www.youtube.com/*"],
-        "js": ["smalltube.js"]
+        "js": ["contentPosition.js", "createOverlay.js", "collectThumbnails.js", "populateGrid.js", "main.js"]
       }
     ],
     "icons": {
