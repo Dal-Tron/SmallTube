@@ -11,42 +11,106 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
 });
 
 function enableSmallTube() {
+    const contentPosition = getContentPosition();
     createOverlay();
-    let thumbnailSources = new Set();
-    collectThumbnails(thumbnailSources);
+    let thumbnailSources = new Map();
+    collectThumbnails(thumbnailSources, contentPosition);
 }
 
-function collectThumbnails(thumbnailSources) {
-    // Reduce the height of grid rows to load more thumbnails
+function getContentPosition() {
+    const contentDiv = document.getElementById('contents');
+    if (contentDiv) {
+        const rect = contentDiv.getBoundingClientRect();
+        return { top: rect.top, left: rect.left };
+    }
+    return { top: 0, left: 0 };
+}
+
+function collectThumbnails(thumbnailSources, contentPosition) {
     const styleTag = document.createElement('style');
     styleTag.innerHTML = `ytd-rich-grid-row { height: 10px !important; }`;
     document.head.appendChild(styleTag);
 
     const interval = setInterval(() => {
-        const thumbnails = document.querySelectorAll('ytd-thumbnail img');
+        updateThumbnailSources(thumbnailSources);
 
-        let newThumbnailsFound = false;
-        thumbnails.forEach(img => {
-            if (img.src && !thumbnailSources.has(img.src)) {
-                thumbnailSources.add(img.src);
-                newThumbnailsFound = true;
-            }
-        });
-
-        console.log(`Collected ${thumbnailSources.size} thumbnails so far.`);
-
-        if (thumbnailSources.size > 50 || !newThumbnailsFound) {
+        if (thumbnailSources.size > 50) {
             clearInterval(interval);
             console.log("Thumbnail collection complete.");
-            console.log(Array.from(thumbnailSources));
-            // You can call populateGrid here or any other function that needs these thumbnails
+            console.log(Array.from(thumbnailSources.values()));
+            populateGrid(thumbnailSources, contentPosition);
         }
     }, 4000);
 }
 
+function updateThumbnailSources(thumbnailSources) {
+    const videoElements = document.querySelectorAll('ytd-rich-grid-media');
+
+    videoElements.forEach(video => {
+        const thumbnailImg = video.querySelector('ytd-thumbnail img');
+        const titleElement = video.querySelector('#video-title-link');
+        const avatarImg = video.querySelector('#avatar-link img');
+        const channelNameElement = video.querySelector('ytd-channel-name');
+
+        if (thumbnailImg && titleElement && avatarImg && channelNameElement) {
+            const videoInfo = {
+                thumbnailUrl: thumbnailImg.src,
+                title: titleElement.getAttribute('title'),
+                videoUrl: 'https://www.youtube.com' + titleElement.getAttribute('href'),
+                avatarUrl: avatarImg.src,
+                channelName: channelNameElement.textContent.trim()
+            };
+
+            const videoInfoKey = videoInfo.videoUrl;
+            if (!thumbnailSources.has(videoInfoKey)) {
+                thumbnailSources.set(videoInfoKey, videoInfo);
+            }
+        }
+    });
+}
+
+    function populateGrid(thumbnailSources, contentPosition) {
+        const overlay = document.getElementById('smallTubeOverlay');
+        if (overlay) {
+            console.log('found overlay')
+            overlay.innerHTML = ''; // Clear the loading text
+
+            const grid = document.createElement('div');
+            grid.style.position = 'absolute';
+            grid.style.top = `${contentPosition.top}px`;
+            grid.style.left = `${contentPosition.left}px`;
+            grid.style.display = 'grid';
+            grid.style.gridTemplateColumns = 'repeat(6, 200px)';
+            grid.style.gridAutoRows = '112.5px'; 
+            grid.style.gap = '10px';
+            overlay.appendChild(grid);
+
+            thumbnailSources.forEach(videoInfo => {
+                const thumbnailContainer = document.createElement('div');
+                thumbnailContainer.style.width = '100%';
+                thumbnailContainer.style.height = '100%';
+                thumbnailContainer.style.position = 'relative';
+                thumbnailContainer.style.overflow = 'hidden';
+                thumbnailContainer.style.marginTop = '60px'
+
+                const img = document.createElement('img');
+                img.src = videoInfo.thumbnailUrl;
+                img.style.width = '100%';
+                img.style.height = '100%';
+                img.style.objectFit = 'cover';
+                img.style.position = 'absolute';
+                img.style.top = '50%';
+                img.style.left = '50%';
+                img.style.transform = 'translate(-50%, -50%)';
+
+                thumbnailContainer.appendChild(img);
+                grid.appendChild(thumbnailContainer);
+            });
+        }
+    }
+
+
 function createOverlay() {
-    const primaryDiv = document.getElementById('primary');
-    if (primaryDiv) {
         const overlay = document.createElement('div');
         overlay.id = 'smallTubeOverlay';
         overlay.style.position = 'fixed';
@@ -62,16 +126,10 @@ function createOverlay() {
         overlay.style.fontSize = '2rem';
         overlay.innerText = 'Loading...';
 
-        document.body.appendChild(overlay); // Append to body for full coverage
+        if (!document.getElementById('smallTubeOverlay')) {
+            document.body.appendChild(overlay);
+            console.log('Overlay created');
+        } else {
+            console.log('Overlay already exists');
+        }
     }
-}
-
-function populateGrid(thumbnailSources) {
-    const overlay = document.getElementById('smallTubeOverlay');
-    if (overlay) {
-        overlay.innerHTML = '';
-        // Grid population logic...
-    }
-}
-
-// Rest of the script...
