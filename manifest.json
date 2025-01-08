@@ -1,27 +1,26 @@
 {
-    "manifest_version": 2,
-    "name": "SmallTube",
-    "version": "1.0",
-    "description": "Makes YouTube thumbnails smaller and compacts the layout.",
-    "permissions": [
+  "manifest_version": 2,
+  "name": "SmallTube",
+  "version": "1.1", 
+  "description": "Makes YouTube thumbnails smaller and compacts the layout.",
+  "permissions": [
       "activeTab",
       "tabs",
       "*://www.youtube.com/*"
-    ],
-    "content_scripts": [
+  ],
+  "content_scripts": [
       {
-        "matches": ["*://www.youtube.com/*"],
-        "js": ["contentPosition.js", "createOverlay.js", "collectThumbnails.js", "populateGrid.js", "main.js"]
+          "matches": ["*://www.youtube.com/*"],
+          "js": ["contentPosition.js", "createOverlay.js", "collectThumbnails.js", "populateGrid.js", "main.js"]
       }
-    ],
-    "icons": {
+  ],
+  "icons": {
       "48": "SmallTube_Logo_48.png",
       "128": "SmallTube_Logo_128.png"
-    },
-    "browser_action": {
+  },
+  "browser_action": {
       "default_icon": "SmallTube_Logo_128.png",
       "default_popup": "popup.html",
       "default_title": "SmallTube"
-    }
   }
-  
+}

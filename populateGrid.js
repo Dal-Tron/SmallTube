@@ -1,4 +1,6 @@
 function populateGrid(thumbnailSources, contentPosition) {
+    console.log("Populating grid with thumbnails:", thumbnailSources.size);
+
     const overlay = document.getElementById('smallTubeOverlay');
     if (overlay) {
         overlay.innerHTML = ''; 
@@ -8,7 +10,7 @@ function populateGrid(thumbnailSources, contentPosition) {
         grid.style.top = `${contentPosition.top}px`;
         grid.style.left = `${contentPosition.left}px`;
         grid.style.display = 'grid';
-        grid.style.gridTemplateColumns = 'repeat(7, 200px)';
+        grid.style.gridTemplateColumns = 'repeat(6, 200px)'; // 6 thumbnails per row
         grid.style.gap = '10px';
         overlay.appendChild(grid);
 
@@ -27,9 +29,10 @@ function populateGrid(thumbnailSources, contentPosition) {
 
             const thumbnailContainer = document.createElement('div');
             thumbnailContainer.style.width = '200px';
-            thumbnailContainer.style.height = '112.5px';
+            thumbnailContainer.style.height = '112.5px'; // Maintain 16:9 aspect ratio
             thumbnailContainer.style.position = 'relative';
             thumbnailContainer.style.overflow = 'hidden';
+            thumbnailContainer.style.backgroundColor = 'gray'; // Placeholder background
 
             const img = document.createElement('img');
             img.src = videoInfo.thumbnailUrl;
@@ -37,7 +40,6 @@ function populateGrid(thumbnailSources, contentPosition) {
             img.style.height = '100%';
             img.style.objectFit = 'cover';
 
-            // Create title text element for hover
             const titleText = document.createElement('div');
             titleText.style.position = 'absolute';
             titleText.style.top = '0';
@@ -45,8 +47,8 @@ function populateGrid(thumbnailSources, contentPosition) {
             titleText.style.width = '100%';
             titleText.style.height = '100%';
             titleText.style.backgroundColor = 'rgba(0, 0, 0, 0.7)';
-            titleText.style.display = 'none'; 
-            
+            titleText.style.display = 'none';
+
             const textContent = document.createElement('div');
             textContent.textContent = videoInfo.title;
             textContent.style.color = 'white';
@@ -61,7 +63,7 @@ function populateGrid(thumbnailSources, contentPosition) {
             textContent.style.width = '100%'; 
             textContent.style.height = '100%'; 
 
-            titleText.appendChild(textContent); 
+            titleText.appendChild(textContent);
 
             thumbnailContainer.addEventListener('mouseenter', () => {
                 titleText.style.display = 'block';
